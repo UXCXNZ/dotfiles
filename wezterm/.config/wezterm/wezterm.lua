@@ -63,7 +63,10 @@ config.window_background_opacity = 0.9  -- Set initial opacity (0.0 to 1.0)
 
 -- Add key binding to toggle opacity
 config.keys = {
-  -- Toggle transparency with CMD+B
+  --------------------------------------------------
+  -- Opacity/Transparency Controls
+  --------------------------------------------------
+  -- CMD+B: Toggle between transparent (10%) and default opacity
   {
     key = 'b',
     mods = 'CMD',
@@ -79,10 +82,10 @@ config.keys = {
     end),
   },
   
-  -- Decrease opacity with CMD+ALT+[
+  -- CMD+OPT+Left: Decrease opacity by 10%
   {
-    key = '[',
-    mods = 'CMD|ALT',
+    key = 'LeftArrow',
+    mods = 'CMD|OPT',
     action = wezterm.action_callback(function(window)
       wezterm.log_info("Decrease opacity pressed")
       local overrides = window:get_config_overrides() or {}
@@ -92,10 +95,10 @@ config.keys = {
     end),
   },
 
-  -- Increase opacity with CMD+ALT+]
+  -- CMD+OPT+Right: Increase opacity by 10%
   {
-    key = ']',
-    mods = 'CMD|ALT',
+    key = 'RightArrow',
+    mods = 'CMD|OPT',
     action = wezterm.action_callback(function(window)
       wezterm.log_info("Increase opacity pressed")
       local overrides = window:get_config_overrides() or {}
@@ -105,48 +108,105 @@ config.keys = {
     end),
   },
 
-  -- Switch to the previous tab
+  --------------------------------------------------
+  -- Background Blur Controls
+  --------------------------------------------------
+  -- CMD+SHIFT+B: Toggle between no blur and default blur
+  {
+    key = 'b',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window)
+      wezterm.log_info("Toggle blur pressed")
+      local overrides = window:get_config_overrides() or {}
+      if not overrides.macos_window_background_blur then
+        overrides.macos_window_background_blur = 0
+      else
+        overrides.macos_window_background_blur = nil  -- Reset to default (40)
+      end
+      window:set_config_overrides(overrides)
+    end),
+  },
+
+  -- CMD+SHIFT+Left: Decrease blur by 10
+  {
+    key = 'LeftArrow',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window)
+      wezterm.log_info("Decrease blur pressed")
+      local overrides = window:get_config_overrides() or {}
+      local current = overrides.macos_window_background_blur or 40  -- Default is 40
+      local new_blur = math.max(0, current - 10)  -- Don't go below 0
+      overrides.macos_window_background_blur = new_blur
+      window:set_config_overrides(overrides)
+    end),
+  },
+
+  -- CMD+SHIFT+Right: Increase blur by 10
+  {
+    key = 'RightArrow',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action_callback(function(window)
+      wezterm.log_info("Increase blur pressed")
+      local overrides = window:get_config_overrides() or {}
+      local current = overrides.macos_window_background_blur or 40  -- Default is 40
+      local new_blur = math.min(100, current + 10)  -- Don't go above 100
+      overrides.macos_window_background_blur = new_blur
+      window:set_config_overrides(overrides)
+    end),
+  },
+
+  --------------------------------------------------
+  -- Tab Management
+  --------------------------------------------------
+  -- CMD+[: Switch to previous tab
   {
     key = '[',
     mods = 'CMD',
     action = wezterm.action.ActivateTabRelative(-1),
   },
   
-  -- Switch to the next tab
+  -- CMD+]: Switch to next tab
   {
     key = ']',
     mods = 'CMD',
     action = wezterm.action.ActivateTabRelative(1),
   },
   
-  -- Close current tab
+  -- CMD+W: Close current tab (with confirmation)
   {
     key = 'w',
     mods = 'CMD',
     action = wezterm.action.CloseCurrentTab { confirm = true },
   },
   
-  -- Quick tab switching with CMD + number
+  --------------------------------------------------
+  -- Direct Tab Switching
+  --------------------------------------------------
+  -- CMD+1: Switch to Tab 1
   {
     key = '1',
     mods = 'CMD',
     action = wezterm.action.ActivateTab(0),
   },
+  -- CMD+2: Switch to Tab 2
   {
     key = '2',
     mods = 'CMD',
     action = wezterm.action.ActivateTab(1),
   },
+  -- CMD+3: Switch to Tab 3
   {
     key = '3',
     mods = 'CMD',
     action = wezterm.action.ActivateTab(2),
   },
+  -- CMD+4: Switch to Tab 4
   {
     key = '4',
     mods = 'CMD',
     action = wezterm.action.ActivateTab(3),
   },
+  -- CMD+5: Switch to Tab 5
   {
     key = '5',
     mods = 'CMD',
