@@ -13,9 +13,38 @@ config.font_size = 19
 config.line_height= 1.2
 
 -- Colors
+-- Don't use a color scheme, define colors directly
 config.colors = {
-	cursor_bg = "white",
-	cursor_border = "white",
+	-- Core colors
+	foreground = "#c0c0c0",     -- Silver/gray text
+	background = "#1a1b26",     -- Dark background
+	
+	-- Cursor colors
+	cursor_bg = "#c0caf5",      -- Tokyo Night foreground color
+	cursor_border = "#c0caf5",  -- Tokyo Night foreground color
+	
+	-- ANSI colors (these affect terminal text colors)
+	ansi = {
+		"#15161e",  -- black
+		"#f7768e",  -- red
+		"#c0c0c0",  -- green (changed to silver)
+		"#e0af68",  -- yellow
+		"#7aa2f7",  -- blue
+		"#bb9af7",  -- magenta
+		"#7dcfff",  -- cyan
+		"#a9b1d6",  -- white
+	},
+	brights = {
+		"#414868",  -- bright black
+		"#f7768e",  -- bright red
+		"#d0d0d0",  -- bright green (changed to bright silver)
+		"#e0af68",  -- bright yellow
+		"#7aa2f7",  -- bright blue
+		"#bb9af7",  -- bright magenta
+		"#7dcfff",  -- bright cyan
+		"#c0caf5",  -- bright white
+	},
+	
 	indexed = { [239] = "lightslategrey" },
 
 	-- Add tab bar color customization
@@ -50,10 +79,10 @@ config.colors = {
 config.window_decorations = "RESIZE"  -- Only show resize handles, no buttons
 config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
-	left = 0,
-	right = 0,
-	top = 0,
-	bottom = 0,
+	left = 10,
+	right = 10,
+	top = 10,
+	bottom = 10,
 }
 config.window_background_image = constants.bg_image
 config.macos_window_background_blur = 40
@@ -156,6 +185,27 @@ config.keys = {
   },
 
   --------------------------------------------------
+  -- Background Image Controls
+  --------------------------------------------------
+  -- CMD+CTRL+B: Toggle background image on/off
+  {
+    key = 'b',
+    mods = 'CMD|CTRL',
+    action = wezterm.action_callback(function(window)
+      wezterm.log_info("Toggle background image pressed")
+      local overrides = window:get_config_overrides() or {}
+      if overrides.window_background_image == nil then
+        -- Currently showing default image, hide it
+        overrides.window_background_image = ""
+      else
+        -- Currently hidden or set to empty string, show it
+        overrides.window_background_image = nil  -- Reset to default (constants.bg_image)
+      end
+      window:set_config_overrides(overrides)
+    end),
+  },
+
+  --------------------------------------------------
   -- Tab Management
   --------------------------------------------------
   -- CMD+[: Switch to previous tab
@@ -215,7 +265,7 @@ config.keys = {
 }
 
 -- Miscellaneous settings
-config.max_fps = 120
+config.max_fps = 60
 config.prefer_egl = true
 
 -- Custom commands

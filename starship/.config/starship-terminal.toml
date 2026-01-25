@@ -1,0 +1,45 @@
+# Pure-style Starship configuration for Terminal.app
+# Clean and simple with Tokyo Night colors
+
+format = """
+$directory\
+$git_branch\
+$git_status
+$character """
+
+[directory]
+style = "bold blue"
+format = "[$path]($style) "
+truncation_length = 3
+truncation_symbol = "…/"
+home_symbol = "~"
+
+[git_branch]
+style = "cyan"
+format = "[$branch]($style) "
+
+[git_status]
+style = "red"
+format = "[$all_status$ahead_behind]($style) "
+conflicted = "="
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+vimcmd_symbol = '[❮](bold green)'
+
+# Optional: Add time if you want it
+[time]
+disabled = true  # Set to false if you want time
+time_format = "%R"
+style = "dimmed white"
+format = '[$time]($style) '
