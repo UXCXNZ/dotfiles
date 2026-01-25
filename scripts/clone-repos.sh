@@ -46,10 +46,16 @@ clone_repo "orion/orion-roa" "git@github.com:UXCXNZ/orion-roa.git"
 clone_repo "orion/orion-future-of-work" "git@github.com:UXCXNZ/orion-future-of-work.git"
 clone_repo "orion/leadlabs" "git@github.com:UXCXNZ/leadlabs.git"
 clone_repo "orion/orion-led" "git@github.com:UXCXNZ/orion-led.git"
+clone_repo "orion/orion-the-coaching-playbook" "git@github.com:UXCXNZ/orion-the-coaching-playbook.git"
+clone_repo "orion/orion-requirements-by-feature" "git@github.com:UXCXNZ/orion-requirements-by-feature.git"
+clone_repo "orion/orion-agents-node" "git@github.com:UXCXNZ/orion-agents-node.git"
+clone_repo "orion/orion-feedback-app-convex" "git@github.com:UXCXNZ/orion-feedback-app-convex.git"
+clone_repo "orion/orion-pdf-generator" "git@github.com:UXCXNZ/orion-pdf-generator.git"
 
-# Tools (third-party)
+# Tools
 clone_repo "tools/chrome-devtools-mcp" "https://github.com/benjaminr/chrome-devtools-mcp.git"
 clone_repo "tools/gpt-crawler" "git@github.com:BuilderIO/gpt-crawler.git"
+clone_repo "tools/remotion-videos" "git@github.com:UXCXNZ/remotion-videos.git"
 
 # Utils (third-party)
 clone_repo "utils/agent-browser" "https://github.com/vercel-labs/agent-browser.git"
@@ -60,13 +66,7 @@ clone_repo "utils/prisma-to-drizzle" "https://github.com/typytypytypy/prisma-to-
 echo ""
 echo "Done! Cloned repos to $CODE_DIR"
 echo ""
-echo "Note: The following repos have no remote and weren't cloned:"
+echo "Note: The following repos are empty (no commits) and weren't cloned:"
 echo "  - tools/claude-code"
-echo "  - tools/remotion-videos"
-echo "  - orion/orion-the-coaching-playbook"
 echo "  - orion/orion-cursor-rules"
-echo "  - orion/orion-requirements-by-feature"
-echo "  - orion/orion-agents-node"
-echo "  - orion/orion-feedback-app-convex"
-echo "  - orion/orion-pdf-generator"
 echo "  - utils/composio"
