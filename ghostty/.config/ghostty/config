@@ -1,0 +1,50 @@
+# Match WezTerm appearance as closely as possible
+
+# Font - match WezTerm (MesloLGS Nerd Font Mono)
+font-family = MesloLGS Nerd Font Mono
+font-size = 19
+
+# Background and transparency - match WezTerm's 0.9 opacity
+background-opacity = 0.9
+
+# Cursor - match WezTerm white cursor
+cursor-color = ffffff
+cursor-style = block
+cursor-style-blink = true
+
+# Window Padding - match WezTerm (no padding)
+window-padding-x = 0
+window-padding-y = 0
+
+# Window decorations - match WezTerm (only resize, no buttons)
+window-decoration = false
+
+# Colors - match WezTerm's color scheme
+# White cursor and light gray text on transparent background
+foreground = c0c0c0
+background = 000000
+
+# Standard color palette to match WezTerm's saturation
+palette = 4=4169e1
+
+# Selection color
+selection-background = 44415a
+
+# Scrollback
+scrollback-limit = 1048576
+
+# Keybindings - Basic ones (Ghostty doesn't support complex callbacks like WezTerm)
+keybind = super+plus=increase_font_size:1
+keybind = super+minus=decrease_font_size:1
+keybind = super+left_bracket=previous_tab
+keybind = super+right_bracket=next_tab
+keybind = super+w=close_tab
+keybind = super+one=goto_tab:1
+keybind = super+two=goto_tab:2
+keybind = super+three=goto_tab:3
+keybind = super+four=goto_tab:4
+keybind = super+five=goto_tab:5
+
+# Toggle window decorations (similar to WezTerm's controls)
+keybind = super+shift+f=toggle_window_decorations
+
