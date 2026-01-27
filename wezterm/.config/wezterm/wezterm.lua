@@ -262,6 +262,55 @@ config.keys = {
     mods = 'CMD',
     action = wezterm.action.ActivateTab(4),
   },
+
+  --------------------------------------------------
+  -- Close Specific Tabs
+  --------------------------------------------------
+  -- CMD+OPT+1: Close Tab 1
+  {
+    key = '1',
+    mods = 'CMD|ALT',
+    action = wezterm.action.Multiple({
+      wezterm.action.ActivateTab(0),
+      wezterm.action.CloseCurrentTab({ confirm = false }),
+    }),
+  },
+  -- CMD+OPT+2: Close Tab 2
+  {
+    key = '2',
+    mods = 'CMD|ALT',
+    action = wezterm.action.Multiple({
+      wezterm.action.ActivateTab(1),
+      wezterm.action.CloseCurrentTab({ confirm = false }),
+    }),
+  },
+  -- CMD+OPT+3: Close Tab 3
+  {
+    key = '3',
+    mods = 'CMD|ALT',
+    action = wezterm.action.Multiple({
+      wezterm.action.ActivateTab(2),
+      wezterm.action.CloseCurrentTab({ confirm = false }),
+    }),
+  },
+  -- CMD+OPT+4: Close Tab 4
+  {
+    key = '4',
+    mods = 'CMD|ALT',
+    action = wezterm.action.Multiple({
+      wezterm.action.ActivateTab(3),
+      wezterm.action.CloseCurrentTab({ confirm = false }),
+    }),
+  },
+  -- CMD+OPT+5: Close Tab 5
+  {
+    key = '5',
+    mods = 'CMD|ALT',
+    action = wezterm.action.Multiple({
+      wezterm.action.ActivateTab(4),
+      wezterm.action.CloseCurrentTab({ confirm = false }),
+    }),
+  },
 }
 
 -- Miscellaneous settings
