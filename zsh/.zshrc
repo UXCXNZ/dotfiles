@@ -9,6 +9,9 @@ export PATH="$HOME/.local/share/bin:$PATH"
 # Python alias
 alias python='/usr/bin/python3'
 
+# Quick machine identifier — shows hostname and local IP
+alias whereami='echo "$(hostname): $(ipconfig getifaddr en0)"'
+
 # pnpm configuration
 export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
