@@ -73,7 +73,7 @@ cd "$DOTFILES_DIR"
 # ── Stow everything ──────────────────────────────────────
 
 step "Stowing configurations"
-for pkg in zsh tmux wezterm starship ghostty terminal; do
+for pkg in zsh tmux wezterm starship ghostty terminal ssh; do
   if [[ -d "$DOTFILES_DIR/$pkg" ]]; then
     echo "  Stowing $pkg..."
     stow -d "$DOTFILES_DIR" -t "$HOME" "$pkg" 2>/dev/null || warn "  $pkg had conflicts (check existing files)"
