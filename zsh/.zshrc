@@ -10,7 +10,7 @@ export PATH="$HOME/.local/share/bin:$PATH"
 alias python='/usr/bin/python3'
 
 # pnpm configuration
-export PNPM_HOME="/Users/chris/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -58,8 +58,7 @@ export PATH="/opt/orbstack/bin:$PATH"
 
 
 # YouTube transcript processor alias
-alias transcript-processor="cd /Users/chris/Code/orion/orion-future-of-work && ./transcript-processor.sh"
-export PATH="$HOME/.local/bin:$PATH"
+alias transcript-processor="cd $HOME/Code/orion/orion-future-of-work && ./transcript-processor.sh"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Claude CLI wrapper - supports --dsp/-dsp as shorthand for --dangerously-skip-permissions
@@ -94,21 +93,19 @@ fi
 # Optional: Right-side prompt with time (uncomment to enable)
 # RPS1='%F{yellow}%T%f'  # Shows time on the right side
 export BROWSER="brave"
+# Autojump — Apple Silicon: /opt/homebrew, Intel: /usr/local
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
-#Zoxide 
-# Set echo variable
+# Zoxide config (init is at the end of this file — it must be last)
 export _ZO_ECHO=1
-
-# Initialize zoxide
-eval "$(zoxide init zsh)"
 
 # Enhanced fzf + zoxide integration with preview
 fz() {
   local dir
   # Set terminal to handle resize better
   printf '\033[?1049h'  # Save screen
-  
+
   dir=$(zoxide query --list | fzf \
     --preview 'ls -la --color=always {}' \
     --height 100% \
@@ -119,7 +116,7 @@ fz() {
     --no-mouse \
     --ansi \
     --cycle) && cd "$dir"
-  
+
   # Restore screen
   printf '\033[?1049l'
 }
@@ -142,7 +139,12 @@ minimal_prompt() {
 # Starship prompt
 eval "$(starship init zsh)"
 export PATH="$HOME/.local/bin:$PATH"
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew — Apple Silicon: /opt/homebrew, Intel: /usr/local
+if [[ -f /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
@@ -166,11 +168,14 @@ load-nvmrc
 
 
 # Added by Antigravity
-export PATH="/Users/chris/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
-alias claude-mem='bun "/Users/chris/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+alias claude-mem='bun "$HOME/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
 
 # bun completions
-[ -s "/Users/chris/.bun/_bun" ] && source "/Users/chris/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 alias oscar-workspace="~/clawd/bin/oscar-workspace"
+
+# Zoxide init (must be last — nothing should modify cd/prompt hooks after this)
+eval "$(zoxide init zsh)"
