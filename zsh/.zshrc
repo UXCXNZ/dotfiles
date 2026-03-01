@@ -167,3 +167,10 @@ load-nvmrc
 
 # Added by Antigravity
 export PATH="/Users/chris/.antigravity/antigravity/bin:$PATH"
+
+alias claude-mem='bun "/Users/chris/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+
+# bun completions
+[ -s "/Users/chris/.bun/_bun" ] && source "/Users/chris/.bun/_bun"
+
+alias oscar-workspace="~/clawd/bin/oscar-workspace"
