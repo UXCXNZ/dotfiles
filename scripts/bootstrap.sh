@@ -28,12 +28,15 @@ fi
 step "Installing Homebrew (if needed)"
 if ! command -v brew &>/dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  # Add brew to PATH for Apple Silicon
-  if [[ -f /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  fi
+fi
+# Add brew to PATH — Apple Silicon: /opt/homebrew, Intel: /usr/local
+if [[ -f /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
 else
-  warn "Homebrew already installed"
+  fail "Homebrew not found after install"
+  exit 1
 fi
 
 # ── CLI tools ──────────────────────────────────────────────
@@ -46,7 +49,12 @@ brew install \
   starship \
   fzf \
   git \
-  gh
+  gh \
+  eza \
+  ripgrep \
+  jq \
+  zsh-autosuggestions \
+  zsh-syntax-highlighting
 
 # ── Cask apps ─────────────────────────────────────────────
 
@@ -119,6 +127,18 @@ if [[ ! -d "$TPM_DIR" ]]; then
   warn "Open tmux and press prefix+I to install plugins"
 else
   warn "TPM already installed"
+fi
+
+# ── Git identity ─────────────────────────────────────────
+
+step "Configuring git"
+if [[ -z "$(git config --global user.email)" ]]; then
+  read -p "  Git email: " git_email
+  read -p "  Git name: " git_name
+  git config --global user.name "$git_name"
+  git config --global user.email "$git_email"
+else
+  warn "Git already configured as $(git config --global user.name) <$(git config --global user.email)>"
 fi
 
 # ── Clone repos (optional) ───────────────────────────────

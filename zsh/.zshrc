@@ -180,5 +180,11 @@ alias claude-mem='bun "$HOME/.claude/plugins/marketplaces/thedotmack/plugin/scri
 
 alias oscar-workspace="~/clawd/bin/oscar-workspace"
 
+# Zsh plugins — Apple Silicon: /opt/homebrew/share, Intel: /usr/local/share
+for share_dir in /opt/homebrew/share /usr/local/share; do
+  [ -f "$share_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$share_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  [ -f "$share_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "$share_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+done
+
 # Zoxide init (must be last — nothing should modify cd/prompt hooks after this)
 eval "$(zoxide init zsh)"
