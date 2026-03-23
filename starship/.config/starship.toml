@@ -1,4 +1,5 @@
-command_timeout = 1000  # Increase timeout to 1 second
+command_timeout = 500   # Cap slow git/lang operations at 500ms
+scan_timeout = 100      # Faster directory scanning
 
 format = """
 [░▒▓](#a3aed2)\
@@ -38,6 +39,7 @@ format = '[[ $symbol $branch ](fg:#c0caf5 bg:#394260)]($style)'
 [git_status]
 style = "bg:#394260"
 format = '[[($all_status$ahead_behind )](fg:#c0caf5 bg:#394260)]($style)'
+ignore_submodules = true
 
 [nodejs]
 symbol = ""
@@ -45,19 +47,13 @@ style = "bg:#212736"
 format = '[[ $symbol ($version) ](fg:#3d59a1 bg:#212736)]($style)'
 
 [rust]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#3d59a1 bg:#212736)]($style)'
+disabled = true
 
 [golang]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#3d59a1 bg:#212736)]($style)'
+disabled = true
 
 [php]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#3d59a1 bg:#212736)]($style)'
+disabled = true
 
 [time]
 disabled = false

@@ -315,7 +315,6 @@ config.keys = {
 
 -- Miscellaneous settings
 config.max_fps = 60
-config.prefer_egl = true
 
 -- Custom commands
 wezterm.on("augment-command-palette", function()

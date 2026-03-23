@@ -23,17 +23,6 @@ esac
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# Git information setup with better resize handling
-autoload -Uz vcs_info
-zstyle ':vcs_info:git:*' formats ' (%b)'
-zstyle ':vcs_info:*' enable git
-
-# More robust precmd function
-precmd() {
-  vcs_info
-  # Clear any potential terminal artifacts
-  print -Pn "\e[?25h"  # Ensure cursor is visible
-}
 
 # Terminal resize handling
 TRAPWINCH() {
@@ -51,9 +40,14 @@ TRAPWINCH() {
 # Ensure clean prompt on resize
 setopt NO_PROMPT_SP
 
+# NVM lazy loading — defers sourcing 4285-line nvm.sh until first use
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+_nvm_lazy_load() {
+  unset -f nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+nvm() { _nvm_lazy_load; nvm "$@"; }
 
 
 # Orbstack path
@@ -96,9 +90,6 @@ fi
 # Optional: Right-side prompt with time (uncomment to enable)
 # RPS1='%F{yellow}%T%f'  # Shows time on the right side
 export BROWSER="brave"
-# Autojump — Apple Silicon: /opt/homebrew, Intel: /usr/local
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # Zoxide config (init is at the end of this file — it must be last)
 export _ZO_ECHO=1
@@ -141,33 +132,15 @@ minimal_prompt() {
 
 # Starship prompt
 eval "$(starship init zsh)"
-export PATH="$HOME/.local/bin:$PATH"
-# Homebrew — Apple Silicon: /opt/homebrew, Intel: /usr/local
-if [[ -f /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -f /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-fi
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+# Homebrew (Apple Silicon — inlined, no subprocess)
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+fpath[1,0]="/opt/homebrew/share/zsh/site-functions"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc)"
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version="$(cat "$nvmrc_path")"
-    if [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use "$nvmrc_node_version"
-    fi
-  else
-    if [ "$(nvm version)" != "$(nvm version default)" ]; then
-      nvm use default >/dev/null
-    fi
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
 
 
 # Added by Antigravity
