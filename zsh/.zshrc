@@ -163,5 +163,10 @@ for share_dir in /opt/homebrew/share /usr/local/share; do
   [ -f "$share_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "$share_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 done
 
+# Zoxide: relocate data dir out of ~/Library/Application Support to avoid
+# macOS cleaner utilities sweeping the frecency database.
+export _ZO_DATA_DIR="$HOME/.config/zoxide"
+[ -d "$_ZO_DATA_DIR" ] || mkdir -p "$_ZO_DATA_DIR"
+
 # Zoxide init (must be last — nothing should modify cd/prompt hooks after this)
 eval "$(zoxide init zsh)"
