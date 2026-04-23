@@ -163,6 +163,13 @@ for share_dir in /opt/homebrew/share /usr/local/share; do
   [ -f "$share_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "$share_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 done
 
+# Named directory shortcuts — unambiguous `cd ~name` jumps and prompt shortening
+hash -d code=~/Code
+hash -d clawd=~/clawd
+hash -d config=~/.config
+hash -d downloads=~/Downloads
+hash -d desktop=~/Desktop
+
 # Zoxide: relocate data dir out of ~/Library/Application Support to avoid
 # macOS cleaner utilities sweeping the frecency database.
 export _ZO_DATA_DIR="$HOME/.config/zoxide"
