@@ -153,6 +153,10 @@ alias claude-mem='bun "$HOME/.claude/plugins/marketplaces/thedotmack/plugin/scri
 
 alias oscar-workspace="~/clawd/bin/oscar-workspace"
 
+# Validate R2 CDN assets
+alias validate-assets='bash ~/.claude/skills/validate-assets/scripts/validate.sh'
+alias validate-assets-missing='bash ~/.claude/skills/validate-assets/scripts/validate.sh --failures-only'
+
 # Zsh plugins — Apple Silicon: /opt/homebrew/share, Intel: /usr/local/share
 for share_dir in /opt/homebrew/share /usr/local/share; do
   [ -f "$share_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$share_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
