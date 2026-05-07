@@ -79,6 +79,9 @@ alias terminal-theme='~/.config/terminal/configure-terminal.sh'
 alias starship-terminal='export STARSHIP_CONFIG=~/.config/starship-terminal.toml && exec zsh'
 alias starship-default='unset STARSHIP_CONFIG && exec zsh'
 
+# Codex with Stripe MCP enabled (default-disabled in ~/.codex/config.toml)
+alias codex-stripe='codex -c mcp_servers.stripe.enabled=true'
+
 # Auto-detect terminal and use appropriate Starship config
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
     export STARSHIP_CONFIG=~/.config/starship-terminal.toml
