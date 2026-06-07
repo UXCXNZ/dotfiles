@@ -218,6 +218,20 @@ alias oscar-workspace="~/clawd/bin/oscar-workspace"
 alias validate-assets='bash ~/.claude/skills/validate-assets/scripts/validate.sh'
 alias validate-assets-missing='bash ~/.claude/skills/validate-assets/scripts/validate.sh --failures-only'
 
+# Hermes Agent: update the core, then relaunch the desktop GUI.
+# Why a function: `hermes update` only applies cleanly when the app is closed
+# and the gateway is stopped (it holds the venv open otherwise), and the GUI
+# must be reopened via `hermes desktop` — the /Applications icon is a stale
+# installer stub; the real app is rebuilt into the repo on every update.
+# Pass-through args work, e.g. `hermes-update -y` or `hermes-update --no-backup`.
+hermes-update() {
+  osascript -e 'quit app "Hermes"' 2>/dev/null   # release the venv/backend
+  hermes gateway stop 2>/dev/null
+  hermes update "$@" || return $?
+  echo "→ Relaunching Hermes desktop…"
+  (hermes desktop >/tmp/hermes-desktop.log 2>&1 &)  # detached; logs in /tmp
+}
+
 # Zsh plugins — Apple Silicon: /opt/homebrew/share, Intel: /usr/local/share
 for share_dir in /opt/homebrew/share /usr/local/share; do
   [ -f "$share_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$share_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
