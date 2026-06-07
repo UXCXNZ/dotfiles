@@ -60,6 +60,31 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Claude CLI wrapper - supports --dsp/-dsp as shorthand for --dangerously-skip-permissions
 unalias claude 2>/dev/null
+
+_claude_is_management_invocation() {
+  local arg
+  for arg in "$@"; do
+    case "$arg" in
+      agents|auth|auto-mode|doctor|install|mcp|plugin|plugins|project|setup-token|ultrareview|update|upgrade|-h|--help|-v|--version)
+        return 0
+        ;;
+    esac
+  done
+  return 1
+}
+
+_claude_has_mcp_override() {
+  local arg
+  for arg in "$@"; do
+    case "$arg" in
+      --mcp-config|--strict-mcp-config|--bare)
+        return 0
+        ;;
+    esac
+  done
+  return 1
+}
+
 claude() {
   local args=()
   for arg in "$@"; do
@@ -68,7 +93,40 @@ claude() {
       *) args+=("$arg") ;;
     esac
   done
+  if ! _claude_is_management_invocation "${args[@]}" && ! _claude_has_mcp_override "${args[@]}"; then
+    args+=(
+      "--strict-mcp-config"
+      "--mcp-config" "$HOME/.claude/profiles/default.mcp.json"
+    )
+  fi
   ~/.local/bin/claude "${args[@]}"
+}
+
+_claude_profile() {
+  local profile="$1"
+  shift
+  claude --dsp \
+    --settings "$HOME/.claude/profiles/${profile}.settings.json" \
+    --strict-mcp-config \
+    --mcp-config "$HOME/.claude/profiles/${profile}.mcp.json" \
+    --append-system-prompt "$(cat "$HOME/.claude/profiles/${profile}.prompt.md")" \
+    "$@"
+}
+
+claude-dev() { _claude_profile dev "$@"; }
+claude-design() { _claude_profile design "$@"; }
+claude-copywriting() { _claude_profile copywriting "$@"; }
+claude-analytics() { _claude_profile analytics "$@"; }
+claude-ops() { _claude_profile ops "$@"; }
+
+claude-lean() {
+  claude --dsp \
+    --settings "$HOME/.claude/profiles/lean.settings.json" \
+    --strict-mcp-config \
+    --mcp-config "$HOME/.claude/profiles/lean.mcp.json" \
+    --disable-slash-commands \
+    --append-system-prompt "$(cat "$HOME/.claude/profiles/lean.prompt.md")" \
+    "$@"
 }
 alias brave="/Applications/Brave\ Browser.app/Contents/MacOS/Brave\ Browser"
 
