@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:starship.rs)",
+      "WebFetch(domain:starship.rs)",
+      "WebFetch(domain:starship.rs)",
+      "WebFetch(domain:starship.rs)",
+      "Bash(starship module:*)",
+      "Bash(fc-list:*)",
+      "Bash(echo \"Shell: $SHELL\")",
+      "Bash(echo:*)",
+      "Bash(python3:*)",
+      "Bash(stow:*)"
+    ],
+    "deny": []
+  }
+}
