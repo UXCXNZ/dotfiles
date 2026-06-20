@@ -197,8 +197,16 @@ eval "$(starship init zsh)"
 export HOMEBREW_PREFIX="/opt/homebrew"
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
 export HOMEBREW_REPOSITORY="/opt/homebrew"
-# Don't quarantine brew-installed cask apps (skips Gatekeeper "couldn't verify" nag; brew still verifies SHA-256)
-export HOMEBREW_CASK_OPTS="--no-quarantine"
+# Homebrew 6.x removed --no-quarantine; auto-clear Gatekeeper quarantine on freshly installed cask apps
+brew() {
+  command brew "$@"
+  local rc=$?
+  if [[ "$1" == (install|upgrade|reinstall) ]]; then
+    find /Applications "$HOME/Applications" -maxdepth 1 -name '*.app' -mmin -3 2>/dev/null \
+      | while read -r app; do xattr -dr com.apple.quarantine "$app" 2>/dev/null; done
+  fi
+  return $rc
+}
 fpath[1,0]="/opt/homebrew/share/zsh/site-functions"
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
