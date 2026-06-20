@@ -197,6 +197,8 @@ eval "$(starship init zsh)"
 export HOMEBREW_PREFIX="/opt/homebrew"
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
 export HOMEBREW_REPOSITORY="/opt/homebrew"
+# Don't quarantine brew-installed cask apps (skips Gatekeeper "couldn't verify" nag; brew still verifies SHA-256)
+export HOMEBREW_CASK_OPTS="--no-quarantine"
 fpath[1,0]="/opt/homebrew/share/zsh/site-functions"
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
