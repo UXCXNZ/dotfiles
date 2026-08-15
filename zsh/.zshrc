@@ -6,11 +6,21 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$HOME/.local/share/bin:$PATH"
 
+# Use the CLI bundled with the App Store app so it matches the running daemon.
+tailscale() {
+  TAILSCALE_BE_CLI=1 /Applications/Tailscale.app/Contents/MacOS/Tailscale "$@"
+}
+
 # Python alias
 alias python='/usr/bin/python3'
 
-# Quick machine identifier — shows hostname and local IP
-alias whereami='echo "$(hostname): $(ipconfig getifaddr en0)"'
+# Quick machine identifier — shows hostname and the active LAN IP
+whereami() {
+  local interface ip
+  interface=$(route -n get default 2>/dev/null | awk '/interface:/{print $2; exit}')
+  ip=${interface:+$(ipconfig getifaddr "$interface" 2>/dev/null)}
+  echo "$(hostname): ${ip:-no LAN IPv4}"
+}
 
 # pnpm configuration
 export PNPM_HOME="$HOME/Library/pnpm"
