@@ -129,6 +129,15 @@ claude-copywriting() { _claude_profile copywriting "$@"; }
 claude-analytics() { _claude_profile analytics "$@"; }
 claude-ops() { _claude_profile ops "$@"; }
 
+claude-cloudflare() {
+  claude \
+    --settings "$HOME/.claude/profiles/cloudflare.settings.json" \
+    --strict-mcp-config \
+    --mcp-config "$HOME/.claude/profiles/cloudflare.mcp.json" \
+    --append-system-prompt "$(cat "$HOME/.claude/profiles/cloudflare.prompt.md")" \
+    "$@"
+}
+
 claude-lean() {
   claude --dsp \
     --settings "$HOME/.claude/profiles/lean.settings.json" \
